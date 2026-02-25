@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "cubic": {
+      "url": "https://www.cubic.dev/api/mcp",
+      "transport": "http",
+      "headers": {
+        "Authorization": "Bearer ${CUBIC_API_KEY}"
+      }
+    }
+  }
+}
