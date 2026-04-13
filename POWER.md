@@ -1,9 +1,9 @@
-```markdown
 ---
 name: "cubic-code-review"
 displayName: "Cubic AI Code Review"
 description: "AI-powered code review platform for complex codebases. Access AI wikis, security scans, PR reviews, and team coding patterns directly in Kiro."
-keywords: ["cubic", "code review", "ai review", "security scan", "pr review", "wiki", "documentation", "codebase", "bugs", "vulnerabilities", "learning", "coding patterns"]
+keywords: ["cubic", "code review", "ai review", "security scan", "pr review", "wiki"]
+author: "Cubic"
 ---
 
 # Cubic AI Code Review Power
@@ -23,6 +23,29 @@ Cubic is an AI-powered code review platform designed for complex codebases. This
 2. Navigate to **Settings → Integrations → MCP Configuration**
 3. Generate a new API key (starts with `cbk_`)
 4. Store it securely — you'll need it for authentication
+
+## Configuration
+
+Add the following to your Kiro MCP configuration (`.kiro/mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "cubic": {
+      "url": "https://www.cubic.dev/api/mcp",
+      "headers": {
+        "Authorization": "Bearer ${CUBIC_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+Set `CUBIC_API_KEY` as an environment variable in your shell profile (e.g., `~/.zshrc` or `~/.bashrc`):
+
+```sh
+export CUBIC_API_KEY=cbk_your_key_here
+```
 
 ## Usage
 
@@ -76,6 +99,42 @@ To understand and follow your team's coding standards:
 - "What coding standards has Cubic learned from our team?"
 - "Show me patterns about API design"
 - "How does the team prefer to handle authentication?"
+
+## Available MCP Tools
+
+### `list_wikis`
+List all wikis accessible to the authenticated user.
+- No required parameters.
+- Returns: list of wikis with `owner_repo` identifiers.
+
+### `list_wiki_pages`
+List all pages in a repository's wiki.
+- `owner_repo` (string, required): Repository in `owner/repo` format (e.g., `vercel/next.js`).
+- Returns: list of page slugs/titles.
+
+### `get_wiki_page`
+Fetch the content of a specific wiki page.
+- `owner_repo` (string, required): Repository in `owner/repo` format.
+- `page` (string, required): Page slug or title as returned by `list_wiki_pages`.
+- Returns: markdown content of the page.
+
+### `list_scans`
+List security and code quality scans for a repository.
+- `owner_repo` (string, required): Repository in `owner/repo` format.
+- `severity` (string, optional): Filter by severity — one of `critical`, `high`, `medium`, `low`. Defaults to all.
+- Returns: list of scans with issue counts and timestamps.
+
+### `get_pr_issues`
+Fetch AI-generated review issues for a pull request.
+- `owner_repo` (string, required): Repository in `owner/repo` format.
+- `pr_number` (integer, required): Pull request number.
+- `severity` (string, optional): Filter by severity — one of `critical`, `high`, `medium`, `low`. Defaults to all.
+- Returns: list of review issues with descriptions and suggested fixes.
+
+### `list_learnings`
+List team coding patterns and conventions learned from senior reviewers.
+- `owner_repo` (string, required): Repository in `owner/repo` format.
+- Returns: list of learnings with titles and descriptions.
 
 ## Workflows
 
@@ -138,4 +197,3 @@ This power integrates with Cubic MCP Server (MIT).
 - [Support](mailto:support@cubic.dev)
 
 We handle your information as described in our [Privacy Notice](https://www.cubic.dev/privacy).
-```
