@@ -17,12 +17,20 @@ Cubic is an AI-powered code review platform designed for complex codebases. This
 
 ## Onboarding
 
-### Step 1: Get Your Cubic API Key
+Cubic's MCP server uses OAuth. There is no API key to copy or paste — Kiro handles
+the sign-in and token refresh for you.
 
-1. Sign in to [cubic.dev](https://www.cubic.dev)
-2. Navigate to **Settings → Integrations → MCP Configuration**
-3. Generate a new API key (starts with `cbk_`)
-4. Store it securely — you'll need it for authentication
+1. Sign in to [cubic.dev](https://www.cubic.dev) and make sure you have access to at
+   least one repository where Cubic is installed (you must be a member of that
+   repository's Cubic installation).
+2. Install this power in Kiro.
+3. The first time a tool is invoked, Kiro opens a browser window. Approve Cubic
+   access for your account and return to Kiro — your tokens are stored and
+   refreshed automatically.
+
+> Existing API-key (`cbk_`) MCP configurations continue to work during the
+> migration window, but new setups should not add an `Authorization` header or a
+> `cbk_` key.
 
 ## Configuration
 
@@ -32,20 +40,18 @@ Add the following to your Kiro MCP configuration (`.kiro/mcp.json`):
 {
   "mcpServers": {
     "cubic": {
-      "url": "https://www.cubic.dev/api/mcp",
-      "headers": {
-        "Authorization": "Bearer ${CUBIC_API_KEY}"
-      }
+      "type": "http",
+      "url": "https://www.cubic.dev/api/mcp"
     }
   }
 }
 ```
 
-Set `CUBIC_API_KEY` as an environment variable in your shell profile (e.g., `~/.zshrc` or `~/.bashrc`):
+No headers, environment variables, or API keys are required — authentication is
+handled through OAuth on first use.
 
-```sh
-export CUBIC_API_KEY=cbk_your_key_here
-```
+> Use the exact URL `https://www.cubic.dev/api/mcp`. Some MCP clients compare the
+> protected resource URL exactly and will fail against `https://cubic.dev/api/mcp`.
 
 ## Usage
 
@@ -58,7 +64,7 @@ When you need architectural context or want to understand how a codebase works:
 3. **Read content**: "Get the architecture overview from owner/repo wiki"
 
 **Example prompts**:
-- "Show me the architecture diagram from the cubic wiki"
+- "Show me the architecture diagram from the Cubic wiki"
 - "What does the authentication page say in the next.js wiki?"
 - "Give me an overview of the repo structure"
 
@@ -175,10 +181,14 @@ When exploring a new codebase:
 
 ## Troubleshooting
 
-**"Access denied" errors**: Verify that:
-- Your Cubic API key is valid
-- You're a member of the GitHub installation for this repo
-- Cubic has been installed and has access to the repository
+**"Access denied" or 401 errors**: Verify that:
+- You completed the Cubic OAuth flow and the Cubic MCP server shows as connected in Kiro. Reconnect from the MCP panel if your tokens expired or were revoked.
+- You're a member of the GitHub installation for this repo.
+- Cubic has been installed and has access to the repository.
+
+**MCP client doesn't recognize the server**: Confirm the URL is exactly
+`https://www.cubic.dev/api/mcp` (with the `www.` prefix) — some clients compare
+the protected resource URL exactly.
 
 **"No wiki found"**: The repository may not have a generated wiki yet. Cubic generates wikis for repositories where it's been installed and enabled.
 
@@ -187,7 +197,7 @@ When exploring a new codebase:
 ## Additional Resources
 
 - [Cubic Documentation](https://docs.cubic.dev)
-- [Cubic MCP Integration Guide](https://docs.cubic.dev/integrations/mcp)
+- [Cubic MCP Server](https://docs.cubic.dev/ide/mcp-server)
 - [Cubic CLI](https://www.npmjs.com/package/@cubic-dev-ai/cli) - Run reviews locally before pushing
 
 ## License and support
