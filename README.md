@@ -14,7 +14,7 @@ Access Cubic's AI code review capabilities without leaving Kiro:
 ## Quick Start
 
 1. **Install this power** in Kiro or use it from the Kiro Powers marketplace.
-2. **Sign in with Cubic** — on first use, Kiro opens a browser for Cubic OAuth. Approve access and you're connected. Tokens are stored and refreshed automatically by Kiro.
+2. **Sign in with Cubic** — on first use, Kiro opens a browser for Cubic OAuth. Approve access and you're connected. If the connection later expires or is revoked, reconnect from Kiro's MCP panel.
 
 > Existing API-key (`cbk_`) configurations continue to work during the migration window, but new setups should use OAuth and should not include an `Authorization` header.
 

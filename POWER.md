@@ -17,16 +17,16 @@ Cubic is an AI-powered code review platform designed for complex codebases. This
 
 ## Onboarding
 
-Cubic's MCP server uses OAuth. There is no API key to copy or paste — Kiro handles
-the sign-in and token refresh for you.
+Cubic's MCP server uses OAuth. There is no API key to copy or paste — sign-in
+happens through your browser the first time a Cubic tool runs.
 
 1. Sign in to [cubic.dev](https://www.cubic.dev) and make sure you have access to at
    least one repository where Cubic is installed (you must be a member of that
    repository's Cubic installation).
 2. Install this power in Kiro.
 3. The first time a tool is invoked, Kiro opens a browser window. Approve Cubic
-   access for your account and return to Kiro — your tokens are stored and
-   refreshed automatically.
+   access for your account and return to Kiro. If the connection later expires
+   or is revoked, reconnect the Cubic server from Kiro's MCP panel.
 
 > Existing API-key (`cbk_`) MCP configurations continue to work during the
 > migration window, but new setups should not add an `Authorization` header or a
@@ -48,7 +48,7 @@ Add the following to your Kiro MCP configuration (`.kiro/mcp.json`):
 ```
 
 No headers, environment variables, or API keys are required — authentication is
-handled through OAuth on first use.
+handled through the OAuth browser flow on first use.
 
 > Use the exact URL `https://www.cubic.dev/api/mcp`. Some MCP clients compare the
 > protected resource URL exactly and will fail against `https://cubic.dev/api/mcp`.
